@@ -24,6 +24,9 @@ using Volo.Abp.Users;
 
 namespace Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations;
 
+/// <summary>
+/// Gathers runtime configuration information of the application for the client side.
+/// </summary>
 public class AbpApplicationConfigurationAppService : ApplicationService, IAbpApplicationConfigurationAppService
 {
     private readonly AbpLocalizationOptions _localizationOptions;
@@ -44,6 +47,9 @@ public class AbpApplicationConfigurationAppService : ApplicationService, IAbpApp
     private readonly ICachedObjectExtensionsDtoService _cachedObjectExtensionsDtoService;
     private readonly AbpApplicationConfigurationOptions _options;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AbpApplicationConfigurationAppService"/> class.
+    /// </summary>
     public AbpApplicationConfigurationAppService(
         IOptions<AbpLocalizationOptions> localizationOptions,
         IOptions<AbpMultiTenancyOptions> multiTenancyOptions,
@@ -82,6 +88,10 @@ public class AbpApplicationConfigurationAppService : ApplicationService, IAbpApp
         _multiTenancyOptions = multiTenancyOptions.Value;
     }
 
+    /// <summary>
+    /// Returns configuration information used by the client side of the application.
+    /// </summary>
+    /// <param name="options">Request options to control the content of the response.</param>
     public virtual async Task<ApplicationConfigurationDto> GetAsync(ApplicationConfigurationRequestOptions options)
     {
         //TODO: Optimize & cache..?
@@ -121,6 +131,9 @@ public class AbpApplicationConfigurationAppService : ApplicationService, IAbpApp
         return result;
     }
 
+    /// <summary>
+    /// Creates a <see cref="CurrentTenantDto"/> object for the current tenant.
+    /// </summary>
     protected virtual CurrentTenantDto GetCurrentTenant()
     {
         return new CurrentTenantDto()
@@ -131,6 +144,9 @@ public class AbpApplicationConfigurationAppService : ApplicationService, IAbpApp
         };
     }
 
+    /// <summary>
+    /// Gets basic multi-tenancy information of the application.
+    /// </summary>
     protected virtual MultiTenancyInfoDto GetMultiTenancy()
     {
         return new MultiTenancyInfoDto
@@ -139,6 +155,9 @@ public class AbpApplicationConfigurationAppService : ApplicationService, IAbpApp
         };
     }
 
+    /// <summary>
+    /// Creates a <see cref="CurrentUserDto"/> describing the current user.
+    /// </summary>
     protected virtual CurrentUserDto GetCurrentUser()
     {
         return new CurrentUserDto
@@ -162,6 +181,9 @@ public class AbpApplicationConfigurationAppService : ApplicationService, IAbpApp
         };
     }
 
+    /// <summary>
+    /// Builds the authentication configuration part of the application configuration.
+    /// </summary>
     protected virtual async Task<ApplicationAuthConfigurationDto> GetAuthConfigAsync()
     {
         var authConfig = new ApplicationAuthConfigurationDto();
@@ -203,6 +225,9 @@ public class AbpApplicationConfigurationAppService : ApplicationService, IAbpApp
         return authConfig;
     }
 
+    /// <summary>
+    /// Gets localization information including languages and resources.
+    /// </summary>
     protected virtual async Task<ApplicationLocalizationConfigurationDto> GetLocalizationConfigAsync(
         ApplicationConfigurationRequestOptions options)
     {
@@ -261,6 +286,9 @@ public class AbpApplicationConfigurationAppService : ApplicationService, IAbpApp
         return CurrentCultureDto.Create();
     }
 
+    /// <summary>
+    /// Retrieves application setting values visible to clients.
+    /// </summary>
     private async Task<ApplicationSettingConfigurationDto> GetSettingConfigAsync()
     {
         var result = new ApplicationSettingConfigurationDto
@@ -280,6 +308,9 @@ public class AbpApplicationConfigurationAppService : ApplicationService, IAbpApp
         return result;
     }
 
+    /// <summary>
+    /// Collects feature values that are visible to clients.
+    /// </summary>
     protected virtual async Task<ApplicationFeatureConfigurationDto> GetFeaturesConfigAsync()
     {
         var result = new ApplicationFeatureConfigurationDto();
@@ -297,6 +328,9 @@ public class AbpApplicationConfigurationAppService : ApplicationService, IAbpApp
         return result;
     }
 
+    /// <summary>
+    /// Returns the list of globally enabled features.
+    /// </summary>
     protected virtual Task<ApplicationGlobalFeatureConfigurationDto> GetGlobalFeaturesConfigAsync()
     {
         var result = new ApplicationGlobalFeatureConfigurationDto();
@@ -309,6 +343,9 @@ public class AbpApplicationConfigurationAppService : ApplicationService, IAbpApp
         return Task.FromResult(result);
     }
 
+    /// <summary>
+    /// Gets time zone information of the current user and application clock.
+    /// </summary>
     protected virtual async Task<TimingDto> GetTimingConfigAsync()
     {
         var timeZone = await _settingProvider.GetOrNullAsync(TimingSettingNames.TimeZone);
@@ -354,6 +391,9 @@ public class AbpApplicationConfigurationAppService : ApplicationService, IAbpApp
         };
     }
 
+    /// <summary>
+    /// Gets the clock configuration of the application.
+    /// </summary>
     protected virtual ClockDto GetClockConfig()
     {
         return new ClockDto

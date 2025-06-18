@@ -59,3 +59,11 @@ namespace Acme.BookStore.Web
 * You can inject services and perform any logic needed to extend the endpoint as you wish.
 
 > Application configuration contributors are automatically discovered by the ABP and executed as a part of the application configuration initialization process.
+
+### Service Overview
+
+The `AbpApplicationConfigurationAppService` class is responsible for gathering
+all the sections returned from the endpoint. It builds authentication, feature
+and localization data by calling helper methods like `GetAuthConfigAsync` or
+`GetLocalizationConfigAsync`. Derive from this service and override these
+methods if you need to customize the response.
